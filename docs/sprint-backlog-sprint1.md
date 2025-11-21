@@ -1,3 +1,11 @@
+
+Los issues se dividieron la siguiente manera:  
+- **Integrante 1 (App Developer):** Se encarga de la carpeta `app/` y la lógica de lectura de configs.
+- **Integrante 2 (DevOps & Container):** Se encarga de Dockerfile, Makefile y `docs/`.
+- **Integrante 3 (Cloud Engineer / K8s):** Se encarga de `k8s/` y los scripts de despliegue en `scripts/`.
+
+En caso alguno necesite ayuda de otro, se mostrará en la sección de responsables
+
 ## Issues:
 
 ### [S1_IX_01] Configuración Inicial del Repositorio
@@ -6,6 +14,8 @@ _Crear estructura de carpetas, `.gitignore` y documento `docs/vision.md`._
 
 **Criterios:**
 - Estructura creada según Proyecto 9 , repositorio limpio
+
+**Responsable(s):** Mathias Vilca
 
 ### [S1_I1_01] Desarrollo de App "Config-Reader"
 **Historia de Usuario:**
@@ -18,6 +28,8 @@ _"Como desarrollador, quiero crear la lógica en Python para leer variables de e
 - Gestión de errores si faltan las variables (valores por defecto).
 - Crear al menos un test unitario simple (ej. verificar que la función de carga de configuración retorna valores por defecto si no hay env vars) y configurarlo en make test
 
+**Responsable(s):** Mathias Vilca
+
 ### [S1_I2_01] Hardening de Imagen y Automatización (Makefile)
 **Historia de Usuario:**
 _"Como ingeniero DevOps, quiero un Dockerfile seguro y un Makefile estandarizado para construir la imagen localmente."_
@@ -28,6 +40,8 @@ _"Como ingeniero DevOps, quiero un Dockerfile seguro y un Makefile estandarizado
 - Makefile funcional con targets: `setup`, `build` (con tags, no latest), scan (placeholder) .
 - Documentación inicial en `docs/metrics.md`.
 - Implementar el target make scan en el Makefile.
+
+**Responsable(s):** TBD
 
 ### [S1_I3_01] Infraestructura como Código (K8s Base)
 
@@ -40,6 +54,8 @@ _"Como ingeniero de plataforma, quiero definir los recursos de K8s para desplega
 - `k8s/deployment.yaml` configurado para inyectar el CM y el Secret como variables de entorno o volúmenes.
 - `k8s/service.yaml` (ClusterIP o NodePort).
 
+**Responsable(s):** TBD
+
 ### [S1_I3_02] Scripts de Despliegue y Smoke Test
 
 **Historia de Usuario:**
@@ -48,7 +64,9 @@ _"Como SRE, quiero scripts para aplicar los cambios en K8s y verificar rápidame
 **Criterios de Aceptación:**
 - `scripts/k8s-apply.sh`: Aplica `namespace` -> `config/secrets` -> `app`.
 - `scripts/k8s-smoke.sh`: Hace `curl` al service para validar respuesta.
-- Los scripts tienen encabezado `set -euo pipefail` y comentarios en español .
+- Los scripts tienen encabezado `set -euo pipefail` y comentarios en español.
+
+**Responsable(s):** TBD
 
 ### [S1_IX_02] Integración y Documentación Final Sprint 1
 
@@ -56,6 +74,8 @@ _"Como SRE, quiero scripts para aplicar los cambios en K8s y verificar rápidame
 _"Como equipo, queremos integrar todas las partes, grabar el video de evidencia y cerrar las métricas del sprint."_
 
 **Criterios de Aceptación:**
-- La imagen construida por B corre con los manifiestos de C y el código de A.
+- La imagen construida por el Integrante 2 corre con los manifiestos del Integrante 3 y el código del Integrante 1.
 - `docs/metrics.md` completado con datos del sprint .
 - Video de Cierre Sprint 1 grabado y subido (mostrar tablero y ejecución).
+
+**Responsable(s):** Todo el equipo
