@@ -9,6 +9,4 @@ assignees: ''
 
 **Historia de Usuario:**
 
-**Justificación:**
-
 **Criterios de Aceptación:**
