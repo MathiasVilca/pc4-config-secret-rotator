@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.pytest_cache/
+
+# Secretos y entorno
+.env 
+#(en el futuro)
+#k8s/secret.yaml (consideracion)
+
+# VSCode
+.vscode/
