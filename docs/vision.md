@@ -10,7 +10,7 @@ Este proyecto busca resolver este problema, al crear una herramienta (el rotator
 
 ## 3. Objetivos Técnicos
 - **App observable:** Se crea una app la cual exponga sus variables de configuración actuales via un endpoint `/config` para su verificación en tiempo real.
-- **Infraestructura Resiliente:** Desplegar recursos en Kubernetes (Deployment, Service, ConfigMap, Secret) configurando correctamente sondeos de Liveness y Readiness para detectar fallos durante las rotaciones/actualizaciones.
+- **Infraestructura Resiliente:** Desplegar recursos en Kubernetes (Deployment, Service, ConfigMap, Secret) configurando correctamente sondeos de Liveness y Readiness (via Probes) para detectar fallos durante las rotaciones/actualizaciones.
 - **Automatización de Rotacion:** Implementar scripts en Python (`rotate_config.py`, `rotate_secret.py`) y Bash capaces de cambiar los valores de configuracion y las apliquen al clúster automáticamente, sin necesidad de reinicios.
 - **Pruebas de Humo:** Crear scripts de validación (`k8s-smoke.sh`) que confirmen si los nuevos valores están activos.
 
