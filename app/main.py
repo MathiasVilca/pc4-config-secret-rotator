@@ -4,6 +4,7 @@ import os
 app = FastAPI()
 
 MIN_LENGTH_OFUSCATION = 6
+VALID_LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 @app.get("/")
 def home():
@@ -30,8 +31,16 @@ def get_config():
     app_mode = os.getenv("APP_MODE", "default")
     api_key = os.getenv("API_KEY", "default-api-key")
 
-    #Nivel de detalle de los logs escritos por la app en consola
-    log_level = os.getenv("LOG_LEVEL", "INFO")
+    #Nivel de detalle de los logs escritos por la app en consola (restringido)
+    raw_log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+
+    if raw_log_level in VALID_LOG_LEVELS:
+        log_level = raw_log_level
+        log_status = "Valid"
+    else:
+        #Se avisa del error
+        log_level = "INFO" 
+        log_status = f"Invalid value '{raw_log_level}' ignored. Using default."
     
     #Numero de intentos maximos para conectarse a un servicio externo luego de fallar
     try:
@@ -39,7 +48,7 @@ def get_config():
         if(max_retries < 0):
             raise ValueError("MAX_RETRIES no puede ser negativo")
     except ValueError:
-        max_retries = 5  # Fallback
+        max_retries = 5  #si es invalido, se carga default
         
     #Switch de backend, a que backend se conecta la app
     target_system = os.getenv("TARGET_SYSTEM", "legacy-db")
@@ -55,6 +64,7 @@ def get_config():
         {
             "app_mode": app_mode,
             "log_level": log_level,
+            "log_staus": log_status,
             "max_retries": max_retries,
             "target_system": target_system
         },
