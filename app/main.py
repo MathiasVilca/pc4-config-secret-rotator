@@ -72,7 +72,7 @@ def get_config():
         {
             "app_mode": app_mode,
             "log_level": log_level,
-            "log_staus": log_status,
+            "log_status": log_status,
             "max_retries": max_retries,
             "target_system": target_system
         },
