@@ -51,7 +51,7 @@ def get_config():
         max_retries = 5  #si es invalido, se carga default
         
     #Switch de backend, a que backend se conecta la app
-    target_system = os.getenv("TARGET_SYSTEM", "legacy-db")
+    target_system = os.getenv("TARGET_SYSTEM", "default-backend")
 
     #Ocultar secretos 
     if (len(api_key) < MIN_LENGTH_OFUSCATION):
