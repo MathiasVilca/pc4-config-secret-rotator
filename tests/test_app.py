@@ -24,7 +24,7 @@ def test_config_defaults():
         assert response.status_code == 200
         data = response.json()
         assert data["config"]["app_mode"] == DEFAULT_CONFIG["APP_MODE"]
-        assert data["config"]["log_level"] == DEFAULT_CONFIG["APP_MODE"]
+        assert data["config"]["log_level"] == DEFAULT_CONFIG["LOG_LEVEL"]
         assert data["config"]["max_retries"] == DEFAULT_CONFIG["MAX_RETRIES"]
         assert data["config"]["target_system"] == DEFAULT_CONFIG["TARGET_SYSTEM"]
         assert "..." in data["secrets"]["api_key_masked"]
