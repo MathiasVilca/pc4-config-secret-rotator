@@ -3,6 +3,14 @@ import os
 
 app = FastAPI()
 
+DEFAULT_CONFIG = {
+    "APP_MODE": "default",
+    "LOG_LEVEL": "INFO",
+    "MAX_RETRIES": 3,
+    "TARGET_SYSTEM": "legacy-db",
+    "FEATURE_FLAG_X": "false",
+    "API_KEY": "sin-secreto"
+}
 MIN_LENGTH_OFUSCATION = 6
 VALID_LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
@@ -28,11 +36,11 @@ def get_config():
     """
 
     #Obtencion de variables importantes (seran exportadas desde ConfigMap/Secret)
-    app_mode = os.getenv("APP_MODE", "default")
-    api_key = os.getenv("API_KEY", "default-api-key")
+    app_mode = os.getenv("APP_MODE", DEFAULT_CONFIG["APP_MODE"])
+    api_key = os.getenv("API_KEY", DEFAULT_CONFIG["API_KEY"])
 
     #Nivel de detalle de los logs escritos por la app en consola (restringido)
-    raw_log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+    raw_log_level = os.getenv("LOG_LEVEL", DEFAULT_CONFIG["LOG_LEVEL"]).upper()
 
     if raw_log_level in VALID_LOG_LEVELS:
         log_level = raw_log_level
@@ -44,14 +52,14 @@ def get_config():
     
     #Numero de intentos maximos para conectarse a un servicio externo luego de fallar
     try:
-        max_retries = int(os.getenv("MAX_RETRIES", "3"))
+        max_retries = int(os.getenv("MAX_RETRIES", DEFAULT_CONFIG["MAX_RETRIES"]))
         if(max_retries < 0):
             raise ValueError("MAX_RETRIES no puede ser negativo")
     except ValueError:
         max_retries = 5  #si es invalido, se carga default
         
     #Switch de backend, a que backend se conecta la app
-    target_system = os.getenv("TARGET_SYSTEM", "default-backend")
+    target_system = os.getenv("TARGET_SYSTEM", DEFAULT_CONFIG["TARGET_SYSTEM"])
 
     #Ocultar secretos 
     if (len(api_key) < MIN_LENGTH_OFUSCATION):
