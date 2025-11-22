@@ -1,7 +1,7 @@
 import os
 from unittest import mock
 from fastapi.testclient import TestClient
-from app.main import app 
+from app.main import app , DEFAULT_CONFIG
 import pytest
 
 client = TestClient(app)
@@ -17,16 +17,16 @@ def test_health():
 
 def test_config_defaults():
     """
-    Verifica que el endpoint /config devuelva los valores por defecto
+    Verifica que el endpoint /config devuelva los valores por defecto si no encuentra valores
     """
     with mock.patch.dict(os.environ, {}, clear=True):
         response = client.get("/config")
         assert response.status_code == 200
         data = response.json()
-        assert data["config"]["app_mode"] == "default"
-        assert data["config"]["log_level"] == "INFO"
-        assert data["config"]["max_retries"] == 3
-        assert data["config"]["target_system"] == "default-backend"
+        assert data["config"]["app_mode"] == DEFAULT_CONFIG["APP_MODE"]
+        assert data["config"]["log_level"] == DEFAULT_CONFIG["APP_MODE"]
+        assert data["config"]["max_retries"] == DEFAULT_CONFIG["MAX_RETRIES"]
+        assert data["config"]["target_system"] == DEFAULT_CONFIG["TARGET_SYSTEM"]
         assert "..." in data["secrets"]["api_key_masked"]
 
 
