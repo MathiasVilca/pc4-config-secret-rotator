@@ -59,6 +59,7 @@ def test_config_custom(VARIABLES):
         data = response.json()
         assert data["config"]["app_mode"] == VARIABLES["APP_MODE"]
         assert data["config"]["log_level"] == VARIABLES["LOG_LEVEL"].upper()
+        assert data["config"]["log_status"] == "Valid" #ESTOS VALORES SON TOTALMENTE VALIDOS
         assert data["config"]["max_retries"] == int(VARIABLES["MAX_RETRIES"])
         assert data["config"]["target_system"] == VARIABLES["TARGET_SYSTEM"]
         assert "..." in data["secrets"]["api_key_masked"]
