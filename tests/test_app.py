@@ -62,3 +62,13 @@ def test_config_custom(VARIABLES):
         assert data["config"]["max_retries"] == int(VARIABLES["MAX_RETRIES"])
         assert data["config"]["target_system"] == VARIABLES["TARGET_SYSTEM"]
         assert "..." in data["secrets"]["api_key_masked"]
+
+def test_log_level_fallback():
+    ENV_LOG_LEVEL_INVALIDO = {"LOG_LEVEL": "VALOR_INVENTADO"}
+
+    with mock.patch.dict(os.environ, ENV_LOG_LEVEL_INVALIDO, clear=True):
+        response = client.get("/config")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["config"]["log_level"] == DEFAULT_CONFIG["LOG_LEVEL"].upper()
+        assert data["config"]["log_status"] != "Valid"
