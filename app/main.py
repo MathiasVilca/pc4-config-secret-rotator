@@ -36,6 +36,8 @@ def get_config():
     #Numero de intentos maximos para conectarse a un servicio externo luego de fallar
     try:
         max_retries = int(os.getenv("MAX_RETRIES", "3"))
+        if(max_retries < 0):
+            raise ValueError("MAX_RETRIES no puede ser negativo")
     except ValueError:
         max_retries = 5  # Fallback
         
