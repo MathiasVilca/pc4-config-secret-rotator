@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-rotator-app
+  namespace: config-rotator
+  labels:
+    app: config-rotator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-rotator
+  template:
+    metadata:
+      labels:
+        app: config-rotator
+    spec:
+      containers:
+      - name: app
+        image: pc4-config-secret-rotator:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        # Inyectar variables desde ConfigMap
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_MODE
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: LOG_LEVEL
+        - name: MAX_RETRIES
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: MAX_RETRIES
+        - name: TARGET_SYSTEM
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: TARGET_SYSTEM
+        # Inyectar variable desde Secret
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: API_KEY
