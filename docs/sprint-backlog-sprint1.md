@@ -41,7 +41,7 @@ _"Como ingeniero DevOps, quiero un Dockerfile seguro y un Makefile estandarizado
 - Documentación inicial en `docs/metrics.md`.
 - Implementar el target make scan en el Makefile.
 
-**Responsable(s):** TBD
+**Responsable(s):** Christian Hermoza
 
 ### [S1_I3_01] Infraestructura como Código (K8s Base)
 
@@ -54,7 +54,7 @@ _"Como ingeniero de plataforma, quiero definir los recursos de K8s para desplega
 - `k8s/deployment.yaml` configurado para inyectar el CM y el Secret como variables de entorno o volúmenes.
 - `k8s/service.yaml` (ClusterIP o NodePort).
 
-**Responsable(s):** TBD
+**Responsable(s):** Christian Hermoza
 
 ### [S1_I3_02] Scripts de Despliegue y Smoke Test
 
