@@ -21,13 +21,13 @@ ENV PYTHONUNBUFFERED=1
 RUN groupadd --gid 1000 appuser \
     && useradd --uid 1000 --gid 1000 --shell /usr/sbin/nologin --create-home appuser
 
-WORKDIR /app
+WORKDIR /project
 
 COPY --from=builder /install /usr/local
 
-COPY app /app
+COPY app /project/app
 
-RUN chown -R appuser:appuser /app
+RUN chown -R appuser:appuser /project
 
 USER appuser
 
