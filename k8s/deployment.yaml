@@ -17,10 +17,10 @@ spec:
     spec:
       containers:
       - name: app
-        image: pc4-config-secret-rotator:latest
+        image: pc4-config-secret-rotator:v1.0.0
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 8000
         env:
         # Inyectar variables desde ConfigMap
         - name: APP_MODE
