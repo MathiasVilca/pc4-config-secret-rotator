@@ -66,7 +66,7 @@ _"Como SRE, quiero scripts para aplicar los cambios en K8s y verificar rápidame
 - `scripts/k8s-smoke.sh`: Hace `curl` al service para validar respuesta.
 - Los scripts tienen encabezado `set -euo pipefail` y comentarios en español.
 
-**Responsable(s):** TBD
+**Responsable(s):** Dery Gonzales Cruz
 
 ### [S1_IX_02] Integración y Documentación Final Sprint 1
 
