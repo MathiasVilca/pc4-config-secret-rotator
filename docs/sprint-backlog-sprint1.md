@@ -6,6 +6,8 @@ Los issues se dividieron la siguiente manera:
 
 En caso alguno necesite ayuda de otro, se mostrará en la sección de responsables
 
+Video: https://drive.google.com/drive/folders/13nDrEWGKe7c7yv9Cl8mCa7CKhaBxXFba
+
 ## Issues:
 
 ### [S1_IX_01] Configuración Inicial del Repositorio
