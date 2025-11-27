@@ -7,7 +7,7 @@ venv/
 
 # Secretos y entorno
 .env 
-k8s/secret.yaml (consideracion)
+k8s/secret.yaml
 
 # VSCode
 .vscode/

@@ -6,6 +6,8 @@ Los issues se dividieron la siguiente manera:
 
 En caso alguno necesite ayuda de otro, se mostrará en la sección de responsables
 
+Video: https://drive.google.com/drive/folders/13nDrEWGKe7c7yv9Cl8mCa7CKhaBxXFba
+
 ## Issues:
 
 ### [S1_IX_01] Configuración Inicial del Repositorio
@@ -66,7 +68,7 @@ _"Como SRE, quiero scripts para aplicar los cambios en K8s y verificar rápidame
 - `scripts/k8s-smoke.sh`: Hace `curl` al service para validar respuesta.
 - Los scripts tienen encabezado `set -euo pipefail` y comentarios en español.
 
-**Responsable(s):** TBD
+**Responsable(s):** Dery Gonzales Cruz
 
 ### [S1_IX_02] Integración y Documentación Final Sprint 1
 

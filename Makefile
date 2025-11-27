@@ -23,3 +23,12 @@ scan:
 	else \
 		echo "Scan placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
 	fi
+
+dev:
+	minikube start
+	eval $$(minikube docker-env) && make build TAG=v1.0.0
+	./scripts/k8s-apply.sh
+	kubectl wait --for=condition=ready pod -l app=config-rotator -n config-rotator --timeout=60s || true
+	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80 > /dev/null 2>&1 & \
+	PID=$$!; \
+	echo "Tunel creado exitosamente, verificar en: http://localhost:8000/config"
