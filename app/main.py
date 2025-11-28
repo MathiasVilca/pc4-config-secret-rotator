@@ -9,7 +9,6 @@ DEFAULT_CONFIG = {
     "LOG_LEVEL": "INFO",
     "MAX_RETRIES": 3,
     "TARGET_SYSTEM": "legacy-db",
-    "FEATURE_FLAG_X": "false",
     "API_KEY": "sin-secreto"
 }
 MIN_LENGTH_OFUSCATION = 6

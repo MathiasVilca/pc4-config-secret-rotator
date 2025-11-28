@@ -30,5 +30,10 @@ dev:
 	./scripts/k8s-apply.sh
 	kubectl wait --for=condition=ready pod -l app=config-rotator -n config-rotator --timeout=60s || true
 	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80 > /dev/null 2>&1 & \
-	PID=$$!; \
-	echo "Tunel creado exitosamente, verificar en: http://localhost:8000/config"
+	PID=$$!
+	@echo "Tunel creado exitosamente, verificar en: http://localhost:8000/config"
+
+reset:
+	@echo "Destruyendo entorno para iniciar desde cero..."
+	minikube delete
+	@echo "Entorno limpio. Puede ejecutar 'make dev'"
