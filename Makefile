@@ -2,6 +2,7 @@
 
 REQUIREMENTS_PATH="app/requirements.txt"
 IMAGE_NAME?=pc4-config-secret-rotator
+TAG?=v1.0.0
 
 setup:
 	python3 -m venv .venv

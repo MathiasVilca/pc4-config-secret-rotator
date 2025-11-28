@@ -7,7 +7,7 @@ NC='\033[0m'
 
 NAMESPACE="config-rotator"
 SERVICE_NAME="config-rotator-service"
-PORT=80
+PORT=8081
 
 echo -e "${GREEN}Iniciando Smoke Test...${NC}"
 
