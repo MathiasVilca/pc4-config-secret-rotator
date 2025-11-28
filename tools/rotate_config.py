@@ -1,5 +1,6 @@
 import yaml
 import argparse
+import subprocess
 import sys
 CONFIGMAP_PATH="k8s/configmap.yaml"
 VALID_LOG_LEVELS = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
@@ -35,7 +36,7 @@ def parse_arguments():
 
 def new_config(config_dict):
     args=parse_arguments()
-    print(args)
+    #print(args)
     if args.app_mode:
         config_dict["data"]["APP_MODE"]=str(args.app_mode)
     if args.log_level:
@@ -50,7 +51,7 @@ try:
     with open(CONFIGMAP_PATH,mode='r') as f:
         config_dict=yaml.safe_load(f) #Carga configuracion de configmap
 
-    print("Datos cargados correctamente, cargando nueva configuración")
+    print("Datos cargados correctamente, Guardando nueva configuración en archivo...")
 
     new_config(config_dict)
     if 'data' in config_dict:
@@ -59,12 +60,21 @@ try:
     with open(CONFIGMAP_PATH,mode='w') as f:
         yaml.dump(config_dict,f,default_flow_style=False, sort_keys=False)
     
-    print("Cambios guardados correctamente")
+    print("Cambios guardados en archivo correctamente.")
+    print("Aplicando cambios a kubernetes...")
+
+    subprocess.run(["kubectl","apply","-f",CONFIGMAP_PATH],check=True)
+
+    print("Cambios aplicados correctamente!")
     
     
 except FileNotFoundError:
     # Esto se ejecuta si el archivo no se encuentra
     print(f"Error: No se encuentra el archivo en '{CONFIGMAP_PATH}'")
+    sys.exit(1)
+
+except subprocess.CalledProcessError:
+    print("Error: Falló el comando 'kubectl'. Verifica que Minikube esté activo")
     sys.exit(1)
 
 except Exception as e:
