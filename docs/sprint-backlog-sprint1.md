@@ -43,7 +43,7 @@ _"Como ingeniero DevOps, quiero un Dockerfile seguro y un Makefile estandarizado
 - Documentación inicial en `docs/metrics.md`.
 - Implementar el target make scan en el Makefile.
 
-**Responsable(s):** Christian Hermoza
+**Responsable(s):** Dery Gonzales Cruz
 
 ### [S1_I3_01] Infraestructura como Código (K8s Base)
 
@@ -68,7 +68,7 @@ _"Como SRE, quiero scripts para aplicar los cambios en K8s y verificar rápidame
 - `scripts/k8s-smoke.sh`: Hace `curl` al service para validar respuesta.
 - Los scripts tienen encabezado `set -euo pipefail` y comentarios en español.
 
-**Responsable(s):** Dery Gonzales Cruz
+**Responsable(s):** Christian Hermoza
 
 ### [S1_IX_02] Integración y Documentación Final Sprint 1
 
