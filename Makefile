@@ -28,8 +28,9 @@ deploy:
 	@echo "Aplicando configuraciones..."
 	kubectl apply -f k8s/namespace.yaml
 	kubectl apply -f k8s/configmap.yaml
+	kubectl apply -f k8s/service.yaml
 	@echo "Calculando checksum de la configuración..."
-	$(eval CONFIG_CHECKSUM := $(shell python -c "import hashlib; print(hashlib.sha256(open('k8s/configmap.yaml', 'rb').read()).hexdigest())"))
+	$(eval CONFIG_CHECKSUM := $(shell python3 -c "import hashlib; print(hashlib.sha256(open('k8s/configmap.yaml', 'rb').read()).hexdigest())"))
 	@echo "Checksum: $(CONFIG_CHECKSUM)"
 	@echo "Aplicando Deployment con anotación de checksum..."
 	kubectl apply -f k8s/deployment.yaml
