@@ -25,3 +25,19 @@ Notas sobre la imagen y el Makefile:
 | **WIP Máximo** | **3** | Se definió el maximo como 3 (un miembro del equipo trabajando en un issue a la vez), en la práctica, se llego a un máximo de 2 |
 | **Builds** | **5 builds,3 fallidas** | Se descubrieron errores al construir, que tenian que ver con discrepancias en el nombre de la imagen docker y los puertos que usaba la app y el que estaba en el YAML, ultimas dos builds fueron exitosas |
 
+
+## 3. Métricas de Propagación de Configuración (Sprint 2)
+| Iteración | Tiempo (s) | Reinicio de Pod |
+| :--- | :--- | :--- |
+| 1 | 2.53 | Sí (Rolling Update) |
+| 2 | 2.41 | Sí (Rolling Update) |
+| 3 | 3.60 | Sí (Rolling Update) |
+| 4 | 2.50 | Sí (Rolling Update) |
+| 5 | 2.46 | Sí (Rolling Update) |
+
+**Promedio**: 2.70 segundos
+
+**Conclusiones**:
+- La estrategia actual (Deployment con checksum) fuerza un reinicio de los pods.
+- El tiempo promedio de propagación es de 2.70 segundos.
+- Existe un breve tiempo de indisponibilidad o latencia durante el reinicio si no hay múltiples réplicas.
