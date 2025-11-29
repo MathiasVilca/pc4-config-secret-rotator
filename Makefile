@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -euo pipefail -c
-.PHONY: setup test build scan tunnel dev rotate-config rotate-secret smoke
+.PHONY: setup test build scan tunnel dev rotate-config rotate-secret smoke help
 
 REQUIREMENTS_PATH="app/requirements.txt"
 IMAGE_NAME?=pc4-config-secret-rotator
@@ -56,3 +56,26 @@ reset:
 	@echo "Destruyendo entorno para iniciar desde cero..."
 	minikube delete
 	@echo "Entorno limpio. Puede ejecutar 'make dev'"
+
+help:
+	@echo "====== TARGETS DISPONIBLES ======"
+	@echo ""
+	@echo "Desarrollo:"
+	@echo "  make dev    - Inicia minikube, construye imagen y despliega app"
+	@echo "  make tunnel - Inicia port-forward para acceder a la app (8000:80)"
+	@echo ""
+	@echo "Build y Scan:"
+	@echo "  make setup         - Configura entorno Python (venv + dependencies)"
+	@echo "  make test          - Ejecuta tests"
+	@echo "  make build TAG=<v> - Construye imagen Docker"
+	@echo "  make scan          - Escanea imagen con Trivy (si está instalado)"
+	@echo ""
+	@echo "Rotación de Configuración y Secretos:"
+	@echo "  make rotate-config --ARGS='APP_MODE=<v> LOG_LEVEL=<v> MAX_RETRIES=<n> TARGET_SYSTEM=<v>'"
+	@echo "                                      - Rota config con parámetros personalizados"
+	@echo "  make rotate-secret                  - Rota secretos usando script"
+	@echo "  make smoke                          - Ejecuta smoke test"
+	@echo ""
+	@echo "Mantenimiento:"
+	@echo "  make reset         - Destruye minikube (limpia todo)"
+	@echo "  make help          - Muestra esta ayuda"
