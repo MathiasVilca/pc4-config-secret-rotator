@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -euo pipefail -c
-.PHONY: setup test build scan
+.PHONY: setup test build scan tunnel dev
 
 REQUIREMENTS_PATH="app/requirements.txt"
 IMAGE_NAME?=pc4-config-secret-rotator
@@ -26,16 +26,16 @@ scan:
 		echo "Scan placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
 	fi
 
-
+tunnel:
+	@echo "Iniciando túnel en puerto 8000... (Presiona Ctrl+C para detener)"
+	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80
 
 dev:
 	minikube start
 	eval $$(minikube docker-env) && make build TAG=v1.0.0
 	./scripts/k8s-apply.sh
 	kubectl wait --for=condition=ready pod -l app=config-rotator -n config-rotator --timeout=60s || true
-	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80 > /dev/null 2>&1 & \
-	PID=$$!
-	@echo "Tunel creado exitosamente, verificar en: http://localhost:8000/config"
+	@echo "Entorno listo, ahora ejecute 'make tunnel' para conectarse."
 
 reset:
 	@echo "Destruyendo entorno para iniciar desde cero..."
