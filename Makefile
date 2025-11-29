@@ -26,6 +26,20 @@ scan:
 		echo "Scan placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
 	fi
 
+sbom:
+	@if [ -z "$(TAG)" ]; then echo "Error: set TAG variable"; exit 2; fi
+	@if ! command -v trivy >/dev/null 2>&1; then \
+		echo "Sbom placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
+		exit 1; \
+	fi
+	@echo "Creando directorio de evidencias..."
+	mkdir -p evidence
+	
+	@echo "Generando SBOM para $(IMAGE_NAME):$(TAG)..."
+	trivy image --format cyclonedx --output evidence/sbom.json --no-progress $(IMAGE_NAME):$(TAG)
+	
+	@echo "SBOM generado exitosamente en 'evidence/sbom.json'"
+
 tunnel:
 	@echo "Iniciando túnel en puerto 8000... (Presiona Ctrl+C para detener)"
 	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80
