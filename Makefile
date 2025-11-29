@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -euo pipefail -c
-.PHONY: setup test build scan tunnel dev rotate-config rotate-secret
+.PHONY: setup test build scan tunnel dev rotate-config rotate-secret smoke
 
 REQUIREMENTS_PATH="app/requirements.txt"
 IMAGE_NAME?=pc4-config-secret-rotator
@@ -40,6 +40,10 @@ rotate-config:
 	@echo "Uso: make rotate-config ARGS='--app_mode=Prod --log_level=DEBUG --max_retries=5'"
 	./scripts/k8s-rotate-config.sh $(ARGS)
 	@echo "Configuración rotada! Ejecute 'make tunnel' para volverse a conectar!"
+
+smoke:
+	@echo "Ejecutando prueba de humo (Smoke Test)..."
+	./scripts/k8s-smoke.sh
 
 dev:
 	minikube start
