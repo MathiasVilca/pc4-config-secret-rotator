@@ -44,3 +44,20 @@ spec:
             name: app-config
         - secretRef:
             name: app-secret
+        # Probes para asegurar que Kubernetes marque el Pod como READY
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 2
+          periodSeconds: 2
+          failureThreshold: 5
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 2
