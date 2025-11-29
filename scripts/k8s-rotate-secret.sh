@@ -17,6 +17,12 @@ else
     exit 1
 fi
 
+echo "Reiniciando Pods para cargar el nuevo secreto..."
+kubectl rollout restart deployment/config-rotator-app -n config-rotator
+
+echo "Esperando despliegue exitoso..."
+kubectl rollout status deployment/config-rotator-app -n config-rotator --timeout=60s
+
 # 2. Ejecutar Smoke Test para validar
 echo "Ejecutando validación (Smoke Test)..."
 if ./scripts/k8s-smoke.sh; then
