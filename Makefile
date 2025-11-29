@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -euo pipefail -c
-.PHONY: setup test build scan deploy
+.PHONY: setup test build scan
 
 REQUIREMENTS_PATH="app/requirements.txt"
 IMAGE_NAME?=pc4-config-secret-rotator
@@ -26,18 +26,6 @@ scan:
 		echo "Scan placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
 	fi
 
-deploy:
-	@echo "Aplicando configuraciones..."
-	kubectl apply -f k8s/namespace.yaml
-	kubectl apply -f k8s/configmap.yaml
-	kubectl apply -f k8s/service.yaml
-	@echo "Calculando checksum de la configuración..."
-	$(eval CONFIG_CHECKSUM := $(shell python3 -c "import hashlib; print(hashlib.sha256(open('k8s/configmap.yaml', 'rb').read()).hexdigest())"))
-	@echo "Checksum: $(CONFIG_CHECKSUM)"
-	@echo "Aplicando Deployment con anotación de checksum..."
-	kubectl apply -f k8s/deployment.yaml
-	kubectl patch deployment config-rotator-app -n config-rotator -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"checksum/config\":\"$(CONFIG_CHECKSUM)\"}}}}}"
-	kubectl rollout status deployment/config-rotator-app -n config-rotator
 
 
 dev:
