@@ -14,34 +14,40 @@ echo -e "${GREEN}Iniciando Smoke Test...${NC}"
 # Verificar si estamos dentro del cluster o fuera.
 
 echo "Esperando a que el pod esté listo..."
-kubectl wait --for=condition=ready pod -l app=config-rotator -n $NAMESPACE --timeout=60s
+kubectl wait --for=condition=ready pod -l app=config-rotator -n $NAMESPACE --timeout=60s >/dev/null
 
-echo "Estableciendo port-forward temporal para la prueba..."
-kubectl port-forward svc/$SERVICE_NAME $PORT:80 -n $NAMESPACE > /dev/null 2>&1 &
+# Iniciar port-forward en background (registro temporal, no se muestra)
+PF_LOG=$(mktemp)
+kubectl port-forward svc/$SERVICE_NAME $PORT:80 -n $NAMESPACE >"$PF_LOG" 2>&1 &
 PID=$!
+trap 'kill ${PID} >/dev/null 2>&1 || true; rm -f "${PF_LOG}"' EXIT
 
-trap "kill $PID" EXIT
-
-sleep 2
-
-echo "Realizando petición al endpoint /health..."
-HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$PORT/health)
-
-if [ "$HTTP_CODE" -eq 200 ]; then
-    echo -e "${GREEN}SUCCESS: La aplicación respondió con 200 OK.${NC}"
-    
-    echo "Verificando endpoint /config..."
-    curl -s http://localhost:$PORT/config | grep "config" > /dev/null
-    if [ $? -eq 0 ]; then
-         echo -e "${GREEN}SUCCESS: Endpoint /config responde estructura válida.${NC}"
-    else
-         echo -e "${RED}ERROR: Endpoint /config no devolvió lo esperado.${NC}"
-         exit 1
+# Esperar /health con reintentos
+RETRY=0
+MAX_RETRIES=30
+SLEEP_SECONDS=1
+HTTP_CODE=000
+BODY=""
+while [ $RETRY -lt $MAX_RETRIES ]; do
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 2 http://localhost:$PORT/health 2>/dev/null || echo 000)
+    if [ "$HTTP_CODE" = "200" ]; then
+        BODY=$(curl -s --max-time 2 http://localhost:$PORT/health 2>/dev/null || true)
+        break
     fi
+    sleep $SLEEP_SECONDS
+    RETRY=$((RETRY+1))
+done
 
+if [ "$HTTP_CODE" = "200" ]; then
+    echo "Smoke test: OK"
+    # Verificar estructura mínima en /config
+    CONFIG_BODY=$(curl -s --max-time 5 http://localhost:$PORT/config 2>/dev/null || true)
+    echo "$CONFIG_BODY" | grep -q "config" >/dev/null 2>&1 || { echo "Smoke test: FAIL - /config inválido"; exit 1; }
+    exit 0
 else
-    echo -e "${RED}FAILURE: La aplicación respondió con código $HTTP_CODE.${NC}"
+    echo "Smoke test: FAIL - /health returned $HTTP_CODE"
+    # show a small snippet of health body if any
+    [ -n "$BODY" ] && echo "Health body: ${BODY:0:200}"
+    rm -f "$PF_LOG"
     exit 1
 fi
-
-echo -e "${GREEN}Smoke Test Finalizado Correctamente.${NC}"
