@@ -30,6 +30,11 @@ tunnel:
 	@echo "Iniciando túnel en puerto 8000... (Presiona Ctrl+C para detener)"
 	kubectl port-forward svc/config-rotator-service -n config-rotator 8000:80
 
+rotate-secret:
+	@echo "Rotando secretos..."
+	./scripts/k8s-rotate-secret.sh
+	@echo "Secretos rotados! Ejecute make tunnel para volverse a conectar!"
+
 dev:
 	minikube start
 	eval $$(minikube docker-env) && make build TAG=v1.0.0
