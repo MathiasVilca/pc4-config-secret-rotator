@@ -85,7 +85,7 @@ help:
 	@echo "  make scan          - Escanea imagen con Trivy (si está instalado)"
 	@echo ""
 	@echo "Rotación de Configuración y Secretos:"
-	@echo "  make rotate-config --ARGS='APP_MODE=<v> LOG_LEVEL=<v> MAX_RETRIES=<n> TARGET_SYSTEM=<v>'"
+	@echo "  make rotate-config ARGS='--app_mode=Prod --log_level=DEBUG --max_retries=5 --target_system="modern-db"'"
 	@echo "                                      - Rota config con parámetros personalizados"
 	@echo "  make rotate-secret                  - Rota secretos usando script"
 	@echo "  make smoke                          - Ejecuta smoke test"
