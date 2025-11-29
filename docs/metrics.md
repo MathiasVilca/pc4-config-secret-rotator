@@ -41,3 +41,19 @@ Notas sobre la imagen y el Makefile:
 - La estrategia actual (Deployment con checksum) fuerza un reinicio de los pods.
 - El tiempo promedio de propagación es de 2.70 segundos.
 - Existe un breve tiempo de indisponibilidad o latencia durante el reinicio si no hay múltiples réplicas.
+
+# Métricas del Sprint 1
+
+## 1. Resumen del Sprint
+* **Estado:** Completado
+* **Integrantes:** 3
+
+## 2. Métricas de Proceso (Kanban)
+| Métrica | Valor | Observación / Análisis |
+| :--- | :--- | :--- |
+| **Throughput** | **7 issues** | Al momento de la grabacion del video, se han completado 5 issues porque el ultimo issue incluye video |
+| **Lead Time Promedio** | **6-7 horas** | Los ultimos dias estuvo menos pesados, asi que pudimos enfocarnos mas |
+| **WIP Máximo** | **3** | Se definió el maximo como 3 (un miembro del equipo trabajando en un issue a la vez), en la práctica, se llego a un máximo de 2 |
+| **Builds** | **11 builds,9 fallidas** | Se descubrieron diversos errores al construir, en algunas versiones no funcionaban los scripts por un problema de terminadores de linea, otras por como funcionaba el tunnel, otras para corregir versiones de librerias que tenian vulnerabilidades |
+| **Rotaciones por dia** | **15 rotaciones** | Invertidas en pruebas, revisiones |
+| **Incidencias** | **10+** | Van desde fallo por el contexto que usaba docker, por librerias que no eran compatibles, scripts fallidos,... |
