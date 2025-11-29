@@ -20,6 +20,7 @@ build:
 	docker build --pull -t $(IMAGE_NAME):$(TAG) -f Dockerfile .
 
 scan:
+	@if [ -z "$(TAG)" ]; then echo "Error: ingrese variable TAG"; exit 2; fi
 	@if command -v trivy >/dev/null 2>&1; then \
 		trivy image --severity CRITICAL,HIGH --no-progress $(IMAGE_NAME):$(TAG); \
 	else \
@@ -27,7 +28,7 @@ scan:
 	fi
 
 sbom:
-	@if [ -z "$(TAG)" ]; then echo "Error: set TAG variable"; exit 2; fi
+	@if [ -z "$(TAG)" ]; then echo "Error: ingrese variable TAG"; exit 2; fi
 	@if ! command -v trivy >/dev/null 2>&1; then \
 		echo "Sbom placeholder: instala 'trivy' para realizar un escaneo real (https://github.com/aquasecurity/trivy)"; \
 		exit 1; \
