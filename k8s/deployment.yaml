@@ -20,7 +20,13 @@ spec:
       labels:
         app: config-rotator
       annotations:
-        checksum/config: "init"
+        # ESTRATEGIA: Anotación checksum/config
+        # - Propósito: Forzar reinicio automático de pods cuando cambia el ConfigMap
+        # - Valor: Se calcula dinámicamente en make deploy (SHA256 del configmap.yaml)
+        # - Cómo funciona: Cuando el valor cambia, K8s detecta cambio en Pod Template → RollingUpdate
+        # - Resultado: Los pods nuevos cargan la nueva configuración automáticamente
+        # - Alternativa: Sin esta anotación, solo "envFrom" NO fuerza reinicio (pods siguen con config vieja)
+        checksum/config: "placeholder-reemplazado-por-make-deploy"
     spec:
       containers:
       - name: app
@@ -28,8 +34,30 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
+        # ESTRATEGIA: envFrom para cargar variables de ConfigMap y Secret
+        # - configMapRef: Carga todas las keys del ConfigMap como variables de entorno
+        # - secretRef: Carga todos los datos del Secret como variables de entorno
+        # - Limitación: No reinicia pods automáticamente si ConfigMap/Secret cambian
+        # - Solución: Usar anotación checksum (arriba) para forzar reinicio
         envFrom:
         - configMapRef:
             name: app-config
         - secretRef:
             name: app-secret
+        # Probes para asegurar que Kubernetes marque el Pod como READY
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 2
+          periodSeconds: 2
+          failureThreshold: 5
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 2
