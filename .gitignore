@@ -11,3 +11,6 @@ k8s/secret.yaml
 
 # VSCode
 .vscode/
+
+#evidencias
+evidence/
