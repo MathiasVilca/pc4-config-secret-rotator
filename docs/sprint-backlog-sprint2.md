@@ -16,10 +16,10 @@ _"Como SRE, quiero scripts en Python que generen nuevas configuraciones y secret
 
 **Criterios de Aceptación:**
 
-- [x] Implementar `tools/rotate_config.py` que modifique `configmap.yaml` (ej. cambiar `APP_MODE`, `LOG_LEVEL`, etc).
-- [x] Implementar `tools/rotate_secret.py` que genere un nuevo secreto aleatorio (ej. UUID o Hash) en `secret.yaml`.
-- [x] Los scripts deben guardar los cambios en los archivos YAML locales.
-- [x] Los scripts deben aplicar los cambios al clúster automáticamente usando subprocess para llamar a `kubectl apply -f ...` .
+-  Implementar `tools/rotate_config.py` que modifique `configmap.yaml` (ej. cambiar `APP_MODE`, `LOG_LEVEL`, etc).
+-  Implementar `tools/rotate_secret.py` que genere un nuevo secreto aleatorio (ej. UUID o Hash) en `secret.yaml`.
+-  Los scripts deben guardar los cambios en los archivos YAML locales.
+-  Los scripts deben aplicar los cambios al clúster automáticamente usando subprocess para llamar a `kubectl apply -f ...` .
 
 **Responsable(s):** Mathias Vilca
 
@@ -27,8 +27,19 @@ _"Como SRE, quiero scripts en Python que generen nuevas configuraciones y secret
 **Historia de Usuario:**
 _Como equipo, queremos tener los documentos claros para facilitar la revisión_
 **Criterios de Aceptación:**
-- [x] Actualizar `docs/risk_register.md` con ciertos riesgos ya mitigados.
-- [ ] Redactar `docs/sprint_backlog_sprint2.md` con informacion del segundo sprint
+-  Actualizar `docs/risk_register.md` con ciertos riesgos ya mitigados.
+-  Redactar `docs/sprint_backlog_sprint2.md` con informacion del segundo sprint
+
+**Responsable(s):** Mathias Vilca
+
+### [S2_I1_03] Añadir targets faltantes y Arreglar errores
+**Historia de Usuario:**
+_Como equipo, queremos que los targets esten completos para que el usuario pueda ejecutar las menos instrucciones posibles_
+**Criterios de Aceptación:**
+-  Crear targets faltantes (`scan`, `sbom`) o renombrar aquellos con la misma funcionalidad
+-  Añadir requerimientos faltantes
+-  Arreglar errores
+-  Verificar funcionalidadnt
 
 **Responsable(s):** Mathias Vilca
 
@@ -39,10 +50,10 @@ _"Como DevOps, quiero scripts Bash que unan la generación de secretos con la va
 
 **Criterios de Aceptación:**
 
-- [ ] Crear script `scripts/k8s-rotate-config.sh` que orqueste el flujo completo de configuración.
-- [ ] Crear script `scripts/k8s-rotate-secret.sh` que orqueste el flujo completo de secretos.
-- [ ] Los scripts Bash deben llamar primero a las herramientas Python (`tools/rotate_*.py`).
-- [ ] Inmediatamente después, deben ejecutar `scripts/k8s-smoke.sh` para validar el endpoint `/config` y confirmar el cambio.
+-  Crear script `scripts/k8s-rotate-config.sh` que orqueste el flujo completo de configuración.
+-  Crear script `scripts/k8s-rotate-secret.sh` que orqueste el flujo completo de secretos.
+-  Los scripts Bash deben llamar primero a las herramientas Python (`tools/rotate_*.py`).
+-  Inmediatamente después, deben ejecutar `scripts/k8s-smoke.sh` para validar el endpoint `/config` y confirmar el cambio.
 
 **Responsable(s):** Dery Gonzales Cruz
 
@@ -52,10 +63,10 @@ _"Como Operador, quiero controlar cómo Kubernetes aplica los cambios (rolling u
 
 **Criterios de Aceptación:**
 
-- [ ] Modificar `k8s/deployment.yaml` para definir la estrategia de actualización.
-- [ ] Investigar e implementar el patrón de "Checksum Annotations" (o similar) para forzar el reinicio del Pod cuando cambie el ConfigMap/Secret.
-- [ ] Configurar correctamente `envFrom` para la inyección de variables.
-- [ ] Verificar que al aplicar un cambio en el ConfigMap, Kubernetes inicie el proceso de Rollout del nuevo Pod.
+-  Modificar `k8s/deployment.yaml` para definir la estrategia de actualización.
+-  Investigar e implementar el patrón de "Checksum Annotations" (o similar) para forzar el reinicio del Pod cuando cambie el ConfigMap/Secret.
+-  Configurar correctamente `envFrom` para la inyección de variables.
+-  Verificar que al aplicar un cambio en el ConfigMap, Kubernetes inicie el proceso de Rollout del nuevo Pod.
 
 **Responsable(s):** Christian Hermoza
 
@@ -63,11 +74,11 @@ _"Como Operador, quiero controlar cómo Kubernetes aplica los cambios (rolling u
 **Historia de Usuario:**
 _"Como SRE, quiero medir cuánto tarda un cambio de config en ser visible en la app para establecer una línea base de rendimiento y seguridad."_
 **Criterios de Aceptación:**
-- [ ] Realizar al menos 5 rotaciones para obtener un tiempo promedio confiable..
-- [ ] Registrar en `docs/metrics.md`: ¿Se reinició el pod automáticamente? (Sí/No).
-- [ ] Registrar en `docs/metrics.md`: Tiempo de propagación en segundos (desde el `apply` hasta que `/config` cambia).
-- [ ] Registrar en `docs/metrics.md`: Tasa de error (si hubo downtime o errores 500).
-- [ ] Redactar conclusiones breves sobre los hallazgos en el mismo documento.
+-  Realizar al menos 5 rotaciones para obtener un tiempo promedio confiable..
+-  Registrar en `docs/metrics.md`: ¿Se reinició el pod automáticamente? (Sí/No).
+-  Registrar en `docs/metrics.md`: Tiempo de propagación en segundos (desde el `apply` hasta que `/config` cambia).
+-  Registrar en `docs/metrics.md`: Tasa de error (si hubo downtime o errores 500).
+-  Redactar conclusiones breves sobre los hallazgos en el mismo documento.
 
 **Responsable(s):** Christian Hermoza
 
@@ -76,10 +87,10 @@ _"Como SRE, quiero medir cuánto tarda un cambio de config en ser visible en la 
 **Historia de Usuario:**
 `"Como equipo, queremos demostrar la capacidad de rotación segura y entregar el proyecto final cumpliendo con todos los requisitos del curso."`
 **Criterios de Aceptación:**
-- [ ] Grabar Video 2 (duración 7-10 min).
-- [ ] Mostrar en el video: Evolución del tablero Kanban (Backlog -> Done).
-- [ ] Demostración técnica: Ejecutar `make rotate-config` (o el script bash) y mostrar en vivo cómo cambia el valor en el navegador.
-- [ ] Explicación de las métricas de seguridad obtenidas.
-- [ ] Repositorio limpio, con `README.md` actualizado y código comentado en español.
+-  Grabar Video 2 (duración 7-10 min).
+-  Mostrar en el video: Evolución del tablero Kanban (Backlog -> Done).
+-  Demostración técnica: Ejecutar `make rotate-config` (o el script bash) y mostrar en vivo cómo cambia el valor en el navegador.
+-  Explicación de las métricas de seguridad obtenidas.
+-  Repositorio limpio, con `README.md` actualizado y código comentado en español.
 
 **Responsable(s):** Todo el equipo
