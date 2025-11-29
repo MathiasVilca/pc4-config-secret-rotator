@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+.SHELLFLAGS := -euo pipefail -c
 .PHONY: setup test build scan deploy
 
 REQUIREMENTS_PATH="app/requirements.txt"
