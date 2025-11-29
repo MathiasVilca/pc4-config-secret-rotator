@@ -9,8 +9,9 @@ NC='\033[0m'
 echo -e "${GREEN}Iniciando rotación de configuración...${NC}"
 
 # 1. Ejecutar herramienta Python para generar y aplicar nueva configuración
-echo "Ejecutando tools/rotate_config.py..."
-if python3 tools/rotate_config.py; then
+# Forwardear todos los parámetros recibidos por el script shell al script Python
+echo "Ejecutando tools/rotate_config.py $*"
+if python3 tools/rotate_config.py "$@"; then
     echo -e "${GREEN}Configuración rotada y aplicada exitosamente.${NC}"
 else
     echo -e "${RED}ERROR: Falló la rotación de configuración.${NC}"
